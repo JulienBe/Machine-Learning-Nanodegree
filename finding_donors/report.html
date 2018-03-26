@@ -12920,7 +12920,7 @@ SUVORK5CYII=
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># TODO: One-hot encode the &#39;features_log_minmax_transform&#39; data using pandas.get_dummies()</span>
-<span class="n">features_final</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">features_raw</span><span class="p">)</span>
+<span class="n">features_final</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">features_log_minmax_transform</span><span class="p">)</span>
 
 <span class="c1"># TODO: Encode the &#39;income_raw&#39; data to numerical values</span>
 <span class="n">income</span> <span class="o">=</span> <span class="n">income_raw</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">==</span> <span class="s1">&#39;&gt;50K&#39;</span><span class="p">)</span>
@@ -13177,7 +13177,7 @@ It is a ratio of true positives(words classified as spam, and which are actually
 <li>They are not very resilient to outliers </li>
 </ul>
 </li>
-<li>Their simplicity and effeciency</li>
+<li>Their simplicity and effeciency on a large set of features as we have in this example</li>
 </ul>
 <h3 id="SVM">SVM<a class="anchor-link" href="#SVM">&#182;</a></h3><ul>
 <li>Text document classification in order to label them into different categories.</li>
@@ -13199,7 +13199,7 @@ It is a ratio of true positives(words classified as spam, and which are actually
 <li>The problem needs be linearily separable</li>
 </ul>
 </li>
-<li>We have 100+ features with dummies so that could be considered a lot of dimensions. And the dataset itself isn't that big</li>
+<li>We have 100+ features with dummies so that could be considered a lot of dimensions so that fits this one as it scales well. And the dataset itself isn't that big so we don't have to worry about the fact that it doesn't scale well with a lot of data (plus it should run once)</li>
 </ul>
 <h3 id="Gaussian-Naive-Bayes-(GaussianNB)">Gaussian Naive Bayes (GaussianNB)<a class="anchor-link" href="#Gaussian-Naive-Bayes-(GaussianNB)">&#182;</a></h3><ul>
 <li>It's often used in spam filtering</li>
@@ -13217,7 +13217,7 @@ It is a ratio of true positives(words classified as spam, and which are actually
 <li>It's.. naive.. :) it doesn't capture the link between each feature. For example it breaks on "things" composed of multiple words</li>
 </ul>
 </li>
-<li>It's a fit because of our we have a large data set with few features clearely identified features.</li>
+<li>It's a fit because of our high number of clearly defined features</li>
 </ul>
 
 </div>
@@ -14145,9 +14145,10 @@ Look at the graph at the bottom left from the cell above(the visualization creat
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer: </strong>
-AdaBoostClassifier is sligthly more accurate than the other.. and SVC sucks at run time. So much so that it makes the slightly slower run time of AdaBoost compare to NB look negligeable 
-And it's not real time, only to run once, so it doesn't matter that much anyway
-F-score when 100% is used also favors NB even if it doesn't change much from the 10%. Contrary to NB</p>
+AdaBoostClassifier is sligthly more accurate than the other.. and SVC sucks at run time.</p>
+<p>So much so that it makes the slightly slower run time of AdaBoost compare to NB look negligeable. Here it's not that relevant as it's not for real time but will only to run once, but still it's worth keeping in mind</p>
+<p>F-score when 100% is used also favors NB even if it doesn't change much from the 10%. Contrary to NB</p>
+<p>So yes I would have used AdaBoost :)</p>
 
 </div>
 </div>
@@ -14169,13 +14170,16 @@ F-score when 100% is used also favors NB even if it doesn't change much from the
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Answer: </strong> 
-Adaptive Boosting shares common features with other learning algorithms : we split the data into two subsets. One to train it. One to evaluate how the training as worked.
-The trainning works in multiple steps, building multiple "models"
-For the first one we pick some random pieces in our training subset, train, use the whole training subset to evaluate our model. 
-We than iterate to build another model, but the random pieces are not so random, as we have a bias towards the points that have a high errors. Now we evaluate over our two models
-And than again we build another model. With a biais on the result of our two models combined. This gives us a third model.
-We will continue this cycle for as many time as necessary. Obviously it has some diminishing return that is easy to observe</p>
+<p><strong>Answer: </strong></p>
+<p>Adaptive Boosting shares common features with other learning algorithms : we split the data into two subsets. One to train it. One to evaluate how the training as worked.</p>
+<p>The trainning works in multiple steps, building multiple "models"
+For the first one we pick some random pieces in our training subset, train, use the whole training subset to evaluate our model.</p>
+<p>We than iterate to build another model, but the random pieces are not so random, as we have a bias towards the points that have a high errors. Now we evaluate over our two models
+And than again we build another model. With a biais on the result of our two models combined. This gives us a third model.</p>
+<p>We will continue this cycle for as many time as necessary. Obviously it has some diminishing return that is easy to observe</p>
+<p>So, it's comparable to a student learning something that would first pick, at random, a bunch of topics that would be on the test and study them.
+Then, he would do a mock test of all the topics. He would then again pick a bunch of topics on the test, but this time, his selection would have a bias on topics where he perfomed poorly on the previous test. After this second study, there would be a second mock test.
+Then a third selection, with an updated bias, and so on.</p>
 
 </div>
 </div>
@@ -14344,7 +14348,7 @@ The optimized model performs slightly better, but that's not a game changer. But
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer:</strong></p>
 <ol>
-<li><em>capital gain and capital loss</em>: it should be also strongly</li>
+<li><em>capital gain and capital loss</em>: it should be also strongly correlated, a person with more capital gain should logically have a higher income</li>
 <li><em>occupation</em>: It makes sense that your income is related to the type of job you have</li>
 <li><em>age</em>: It makes sense that as you get older, you get more experience and are more valuable.</li>
 <li><em>hours-per-week</em>: generally more would mean more income</li>
